@@ -2,15 +2,21 @@
 #
 # Exercise 1.27 and Exercise 1.28
 
-import gzip
+def portfolio_cost(filename):
+    total = 0.00
 
-total = 0.00
+    with open(filename, 'rt') as data:
+        header = next(data).split(',')
 
-with gzip.open('Data/portfolio.csv.gz', 'rt') as data:
-    header = next(data).split(',')
+        for line in data:
+            try:
+                row = line.split(',')
+                total += float(row[1]) * float(row[2])
+            except ValueError:
+                print(f"Couldn't parse: {line}")
 
-    for line in data:
-        row = line.split(',')
-        total += float(row[1]) * float(row[2])
+    return total
 
-print(f"Total cost {total:.2f}")
+cost = portfolio_cost('Data/missing.csv')
+
+print(f"Total cost {cost:.2f}")
