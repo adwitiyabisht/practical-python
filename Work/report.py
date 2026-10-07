@@ -1,34 +1,4 @@
-# report.py
-#
-# Exercise 2.4
-
 import csv
-
-'''
-def portfolio_cost(filename):
-    total = 0.00
-
-    with open(filename, 'rt') as data:
-        rows = csv.reader(data)
-        next(rows)
-
-        for row in rows:
-            try:
-                total += int(row[1]) * float(row[2])
-            except ValueError:
-                print(f"Couldn't parse: {row}")
-
-    return total
-
-if len(sys.argv) == 2:
-    filename = sys.argv[1]
-else:
-    filename = 'Data/missing.csv'
-
-cost = portfolio_cost(filename)
-
-print(f"Total cost {cost:.2f}")
-'''
 
 def read_portfolio(filename):
     portfolio = []
@@ -39,13 +9,49 @@ def read_portfolio(filename):
 
         for row in rows:
             try:
-                holding = (row[0], int(row[1]), float(row[2]))
+                holding = {}
+                holding['name'] = row[0]
+                holding['shares'] = int(row[1])
+                holding['price'] = float(row[2])
                 portfolio.append(holding)
             except ValueError:
                 pass
 
     return portfolio
 
-portfolio = read_portfolio("Data/missing.csv")
+def read_prices(filename):
+    prices = {}
 
-print(portfolio)
+    with open(filename, 'rt') as data:
+        rows = csv.reader(data)
+
+        for row in rows:
+            try:
+                prices[row[0]] = float(row[1])
+            except (ValueError, IndexError):
+                pass
+
+    return prices
+
+def make_report(stocks, prices):
+    # name - shares - price - change
+    report = []
+    for s in stocks:
+        change = prices[s['name']] - s['price']
+        tup = (s['name'], s['shares'], prices[s['name']], change)
+        report.append(tup)
+
+    return report
+
+portfolio = read_portfolio('Data/portfolio.csv')
+prices = read_prices('Data/prices.csv')
+report = make_report(portfolio, prices)
+
+headers = ('Name', 'Shares', 'Price', 'Change')
+
+print('%10s %10s %10s %10s' % headers)
+print('---------- ---------- ---------- -----------')
+
+for name, shares, price, change in report:
+    price_str = f"${price:.2f}"
+    print(f'{name:>10s} {shares:>10d} {price_str:>10s} {change:>10.2f}')
