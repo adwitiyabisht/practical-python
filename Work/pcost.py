@@ -2,21 +2,21 @@
 #
 # Exercise 1.27 and Exercise 1.28
 
+import csv
 import sys
 
 def portfolio_cost(filename):
     total = 0.00
 
-
     with open(filename, 'rt') as data:
-        header = next(data).split(',')
+        rows = csv.reader(data)
+        next(rows)
 
-        for line in data:
-            row = line.strip().split(',')
+        for row in rows:
             try:
                 total += int(row[1]) * float(row[2])
             except ValueError:
-                print(f"Couldn't parse: {line.strip()}")
+                print(f"Couldn't parse: {row}")
 
     return total
 
