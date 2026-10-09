@@ -47,17 +47,19 @@ def make_report(stocks, prices):
 
     return report
 
+def print_report(report):
+    headers = ('Name', 'Shares', 'Price', 'Change')
+    print('%10s %10s %10s %10s' % headers)
+    print('---------- ---------- ---------- -----------')
 
+    for name, shares, price, change in report:
+        price_str = f"${price:.2f}"
+        print(f'{name:>10s} {shares:>10d} {price_str:>10s} {change:>10.2f}')
 
-portfolio = read_portfolio('Data/portfolio.csv')
-prices = read_prices('Data/prices.csv')
-report = make_report(portfolio, prices)
+def portfolio_report(portfolio_file, prices_file):
+    portfolio = read_portfolio(portfolio_file)
+    prices = read_prices(prices_file)
+    report = make_report(portfolio, prices)
+    print_report(report)
 
-headers = ('Name', 'Shares', 'Price', 'Change')
-
-print('%10s %10s %10s %10s' % headers)
-print('---------- ---------- ---------- -----------')
-
-for name, shares, price, change in report:
-    price_str = f"${price:.2f}"
-    print(f'{name:>10s} {shares:>10d} {price_str:>10s} {change:>10.2f}')
+portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
