@@ -1,11 +1,11 @@
 # pcost.py
-import csv
 import sys
 import report
+from stock import Stock
 
 def portfolio_cost(filename):
     portfolio = report.read_portfolio(filename)
-    total = sum([s.shares * s.price for s in portfolio])
+    total = sum([s.cost for s in portfolio])
     return total
 
 def main(argv):
