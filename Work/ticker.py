@@ -3,10 +3,18 @@ import csv
 import report
 import tableformat
 
+def convert_types(rows, types):
+    for row in rows:
+        try:
+            yield [func(val) for func, val in zip(types, row)]
+
+        except ValueError:
+            continue
+
 def parse_stock_data(lines):
     rows = csv.reader(lines)
     rows = ([row[0], row[1], row[4]] for row in rows)
-    rows = ([str(row[0]), float(row[1]), float(row[2])] for row in rows)
+    rows = convert_types(rows, [str, float, float])
     rows = (dict(zip(['name', 'price', 'change'], row)) for row in rows)
     return rows
 
