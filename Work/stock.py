@@ -25,4 +25,3 @@ class Stock:
 
     def sell(self, nshares):
         self.shares -= nshares
-

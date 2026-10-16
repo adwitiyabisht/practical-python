@@ -1,12 +1,10 @@
 # pcost.py
 import sys
 import report
-from stock import Stock
 
 def portfolio_cost(filename):
     portfolio = report.read_portfolio(filename)
-    total = sum([s.cost for s in portfolio])
-    return total
+    return portfolio.total_cost
 
 def main(argv):
     if len(sys.argv) == 2:
