@@ -35,7 +35,7 @@ def parse_csv(lines, select=None, types=None, has_headers=True, delimiter=',', s
                 if not silence_errors:
                     print(f"Row {rows.line_num}: Couldn't convert {row}")
                     print(f"Row {rows.line_num}: Reason {e}")
-                    continue
+                continue
 
         if has_headers:
             record = dict(zip(headers, row))

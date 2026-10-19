@@ -6,10 +6,9 @@ from portfolio import Portfolio
 
 def read_portfolio(filename):
     with open(filename) as f:
-        portdicts = fileparse.parse_csv(f, select = ['name', 'shares', 'price'], types=[str, int, float])
-        portfolio = [stock.Stock(d['name'], d['shares'], d['price']) for d in portdicts]
+        port = Portfolio.from_csv(f)
 
-    return Portfolio(portfolio)
+    return port
 
 def read_prices(filename):
     with open(filename) as f:
